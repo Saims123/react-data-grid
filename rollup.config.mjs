@@ -1,26 +1,19 @@
+import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export default {
-  input: './lib/index.js',
+  input: './index.js',
   output: [{
-    file: './lib/bundle.mjs',
+    file: './index.bundle.js',
     format: 'es',
     preferConst: true,
     sourcemap: true
-  }, {
-    file: './lib/bundle.cjs',
-    format: 'cjs',
-    preferConst: true,
-    sourcemap: true,
-    interop: false
   }],
-  external: [
-    'clsx',
-    'react',
-    'react-dom'
-  ],
   plugins: [
+    replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+    commonjs(),
     sourcemaps(),
     nodeResolve()
   ]
